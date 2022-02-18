@@ -1,9 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
-import {Menu, Input} from 'antd'
+import {Menu, Input, Row, Col} from 'antd'
+
+import LoginForm from '../components/LoginForm'
+import UserProfile from '../components/UserProfile'
 
 const AppLayout = ({ children }) => {
+  const [isLoggedIn, setIsloggedIn] = useState(false)
   return (
     <div>
       <Menu mode = "horizontal">
@@ -14,13 +18,25 @@ const AppLayout = ({ children }) => {
           <Link href="/profile"><a>프로필</a></Link>
         </Menu.Item>
         <Menu.Item>
-          <Input.Search/>
+          <Input.Search enterButton style={{verticalAlign : 'middle'}}/>
         </Menu.Item>
         <Menu.Item>
           <Link href="/signup"><a>회원가입</a></Link>
         </Menu.Item>
       </Menu>
-      {children}
+
+      <Row gutter={8}>
+        <Col xs={24} md={6}>
+          {isLoggedIn ? <UserProfile/> : <LoginForm/>}
+        </Col>
+        <Col xs={24} md={12}>
+        {children}
+        </Col>
+        <Col xs={24} md={6}>
+          <a href='https://blog.naver.com/kimjihan77' target='_blank' rel='noreferrer noopener'>코줍's 블로그</a>
+        </Col>
+      </Row>
+      
     </div>
   );
 };
