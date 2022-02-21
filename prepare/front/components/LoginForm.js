@@ -5,7 +5,7 @@ import useInput from '../hooks/useInput';
 import styled from 'styled-components'
 import {Form, Input, Button} from 'antd'
 
-import { loginAction } from '../reducers';
+import { loginAction } from '../reducers/user';
 import Link from 'next/link'
 
 const ButtonWrapper = styled.div`
