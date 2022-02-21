@@ -45,7 +45,7 @@ const changeNickname = (data) =>{
 }
 
 changeNickname('Jiphago')
-StorageEvent.dispatch(changeNickname('쟈니쟈니'))
+// Store.dispatch(changeNickname('쟈니쟈니'))
 
 // (이전상태, 액션) => 다음 상태
 const rootReducer = (state = initialState, action) =>{
