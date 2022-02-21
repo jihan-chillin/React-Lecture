@@ -1,3 +1,5 @@
+import { HYDRATE } from "next-redux-wrapper"
+
 const initialState = {
     // 이걸 작성하려면 초기데이터 구조를 어느정도 잡아놓고 있어야 함.
     user : {
@@ -50,6 +52,11 @@ changeNickname('Jiphago')
 // (이전상태, 액션) => 다음 상태
 const rootReducer = (state = initialState, action) =>{
     switch(action.type){
+        case HYDRATE:
+        return{
+            ...state,
+            ...action.payload
+        }
         case 'LOG_IN' : 
         return {
             ...state,
@@ -68,6 +75,8 @@ const rootReducer = (state = initialState, action) =>{
                 user : null
             }
         }
+        default:
+            return state
         
     }
 }
