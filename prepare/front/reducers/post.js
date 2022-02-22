@@ -11,11 +11,14 @@ export const initialState = {
         content : '첫 번째 더미데이터', 
         Images : [{
             src : 'https://pbs.twimg.com/profile_images/1072730974343979008/ebGYbR-L.jpg'
-        },{
+        },
+        {
             src : 'https://pbs.twimg.com/media/ERcRb9eU0AAmv56.jpg'
-        },{
+        },
+        {
             src : 'https://pbs.twimg.com/media/FEuPI5uacAECirJ?format=jpg&name=large'
-        }],
+        }
+    ],
         Comments : [{
             User : {
                 nickname : 'kozubi'
