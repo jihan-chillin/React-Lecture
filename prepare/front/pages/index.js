@@ -10,10 +10,15 @@ const Home = () =>{
   const { mainPosts } = useSelector((state) => state?.post)
   return (
     <AppLayout>
-      {isLoggedIn && <PostForm/>}
-      {/* map 돌릴 때, key값을 index대신 post.id로 쓰는 것이 CRUD관리에 용이  */}
-      {mainPosts.map((post)=> <PostCard key={post.id} post={post}/>)}
-    </AppLayout>
+      {isLoggedIn && <PostForm />}
+      {/* map 돌릴 때, key값을 index대신 post.id로 쓰는 것이 CRUD관리에 용이 */}
+      {mainPosts.map((c) => {
+        return (
+          <PostCard key={c.id} post={c} />
+        );
+      })}
+  </AppLayout>
+    
   )
 }
 

@@ -1,24 +1,36 @@
+import React, { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import {Card, Popover, Button} from 'antd'
-import {EllipsisOutlined, HeartOutlined, MessageOutlined, RetweetOutlined} from '@ant-design/icons'
+import {EllipsisOutlined, HeartOutlined,HeartTwoTone ,MessageOutlined, RetweetOutlined} from '@ant-design/icons'
 import Avatar from 'antd/lib/avatar/avatar'
 
 import PostImages from './PostImages'
 
 // 부모컴포넌트인 index.js에서 post 받아옴.
 const PostCard = ({post}) =>{
+    const [liked, setLiked] = useState(false);
+    // 토글인 state관리 setLiked((prev) => !prev);
+    const onToggleLike = useCallback(() => {
+        setLiked((prev) => !prev);
+    }, []);
+    const [commentOpened, setCommentOpened] = useState(false)
+    const onToggleComment = useCallback(()=>{
+        setCommentOpened((prev) => !prev)
+    },[])
     const {me} = useSelector((state)=> state.user)
     const id = me?.id;
 
     return (
-        <div>
+        <div style={{marginBottom : 20}}>
             <Card
-                cover = {post.Images[0] && <PostImages images={post.Images}/>}
+                cover={post.Images && <PostImages images={post.Images} />}
                 actions={[
                     <RetweetOutlined key="retweet"/>,
-                    <HeartOutlined key="heart"/>,
-                    <MessageOutlined key="comment"/>,
+                    liked
+                    ? <HeartTwoTone twoToneColor="#eb2f96" key="heart" onClick={onToggleLike} />
+                    : <HeartOutlined key="heart" onClick={onToggleLike} />,
+                    <MessageOutlined key="comment" onClick={onToggleComment}/>,
                     <Popover key="more" content={(
                         <Button.Group>
                            {id && post.User.id === id ?(
@@ -47,6 +59,11 @@ const PostCard = ({post}) =>{
                 {/* <Content/> */}
                 {/* <Buttons></Buttons> */}
             </Card>
+            {commentOpened && (
+                <div>
+                    댓글 부분 베에ㅐㅣ베
+                 </div>   
+            )}
             {/* <CommnetForm/>
             <Comments/> */}
         </div>
