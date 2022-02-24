@@ -7,6 +7,7 @@ import Avatar from 'antd/lib/avatar/avatar'
 
 import PostImages from './PostImages'
 import CommentForm from './CommentForm'
+import PostCardContent from './PostCardContent'
 
 // 부모컴포넌트인 index.js에서 post 받아옴.
 const PostCard = ({post}) =>{
@@ -54,11 +55,9 @@ const PostCard = ({post}) =>{
                 <Card.Meta
                     avatar ={<Avatar>{post.User.nickname}</Avatar>}
                     title={post.User.nickname}
-                    description={post.content}
+                    description={<PostCardContent postData={post.content}/>}
                 />
-                {/* <Image/> */}
-                {/* <Content/> */}
-                {/* <Buttons></Buttons> */}
+        
             </Card>
             {commentOpened && (
                 <div>

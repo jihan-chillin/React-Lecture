@@ -4,6 +4,7 @@ import Link from 'next/link';
 import PropTypes from 'prop-types';
 import {Menu, Input, Row, Col} from 'antd'
 import styled from 'styled-components'
+import { createGlobalStyle } from 'styled-components';
 
 import LoginForm from '../components/LoginForm'
 import UserProfile from '../components/UserProfile'
@@ -12,11 +13,28 @@ const searchInput = styled(Input.Search)`
   vertical-align : middle
 `
 
+/* gutter로 인해 불필요한 스크롤이 생기는 걸 방지해주는 global styling */
+const Gloabal = createGlobalStyle`
+  .ant-row{
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .ant-col:first-child{
+    padding-left: 0 !important;
+  }
+
+  .ant-col:last-child{
+    padding-right: 0 !important;
+  }
+`
+
 const AppLayout = ({ children }) => {
   const isLoggedIn = useSelector((state)=> state?.user.isLoggedIn)
   
   return (
     <div>
+    <Gloabal/>
       <Menu mode = "horizontal">
         <Menu.Item>
           <Link href="/"><a>노드버드</a></Link>

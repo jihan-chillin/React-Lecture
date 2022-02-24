@@ -8,7 +8,7 @@ export const initialState = {
             id : 1,
             nickname : 'kozub'
         },
-        content : '첫 번째 더미데이터', 
+        content : '첫 번째 더미데이터 #리덕스 #본격적으로시작전 #프로퇴사러', 
         Images : [{
             src : 'https://pbs.twimg.com/profile_images/1072730974343979008/ebGYbR-L.jpg'
         },
