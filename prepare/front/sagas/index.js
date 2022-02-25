@@ -1,4 +1,4 @@
-import {all, fork, call, put, take} from 'redux-saga/effects'
+import {all, fork, call, put, take, take, takeLatestLatest} from 'redux-saga/effects'
 import axios from 'axios'
 
 // API에선 generator마냥 * 표시하면 절대 안됨.
@@ -66,16 +66,18 @@ function* addPost(action){
 }
 
 // 1. 이벤트 리스너 같은 역할을 하는 generator를 먼저 만들어주도
+// 다만, 한 번 밖에 실행이 안됨 ( 재사용 불가 )
+// 이거를 해결하기 위해서 while - yield로 무한사용을 할 ㅜㅅ 있음.
 function* watchLogin(){
-    yield take('LOG_IN_REQUEST', logIn)
+    yield takeLatest('LOG_IN_REQUEST', logIn)
 }
 
 function* watchLogout(){
-    yield take('LOG_OUT_REQUEST', logOut)
+    yield takeLatest('LOG_OUT_REQUEST', logOut)
 }
 
 function* addPost(){
-    yield take('ADD_POST_REQUEST', addPost)
+    yield takeLatest('ADD_POST_REQUEST', addPost)
 }
 
 // 2. fork는 함수를 실행시켜주는 거 (call이랑 다름 )
