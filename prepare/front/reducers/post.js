@@ -35,10 +35,15 @@ export const initialState = {
     postAdded : false,
 }
 
-const ADD_POST = 'ADD_POST';
-export const addPost = {
-    type : ADD_POST
-}
+export const ADD_POST_REQUEST = 'ADD_POST_REQUEST'
+export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS'
+export const ADD_POST_FAILURE = 'ADD_POST_FAILURE'
+
+export const addPost =(data)=> ({
+    type : ADD_POST_REQUEST,
+    data
+})
+
 const dummyPost = {
     id : 1,
     content : '더미데이터 고양이로 도배해버리기',
@@ -54,7 +59,7 @@ const dummyPost = {
 // 이전 state와 action을 받아서 다음 state를 반환해주는 함수 : reducer
 const reducer = (state = initialState, action)=>{
     switch(action.type){
-        case ADD_POST :
+        case ADD_POST_REQUEST :
             return{
                 ...state,
                 //  [dummyPost, ...state.mainPosts] : 최신 더미데이터가 맨 위에 작성됨
@@ -62,6 +67,22 @@ const reducer = (state = initialState, action)=>{
                 mainPosts : [dummyPost, ...state.mainPosts],
                 postAdded : true,
             }
+            case ADD_POST_SUCCESS :
+                return{
+                    ...state,
+                    //  [dummyPost, ...state.mainPosts] : 최신 더미데이터가 맨 위에 작성됨
+                    // [...state.mainPosts, dummyPost] : 최신 더미데이터가 맨 아래 작성된
+                    mainPosts : [dummyPost, ...state.mainPosts],
+                    postAdded : true,
+                }
+                case ADD_POST_FAILURE :
+                    return{
+                        ...state,
+                        //  [dummyPost, ...state.mainPosts] : 최신 더미데이터가 맨 위에 작성됨
+                        // [...state.mainPosts, dummyPost] : 최신 더미데이터가 맨 아래 작성된
+                        mainPosts : [dummyPost, ...state.mainPosts],
+                        postAdded : true,
+                    }
 
         default:
             return state;
