@@ -33,7 +33,14 @@ export const UNFOLLOW_REQUEST = 'UNFOLLOW_REQUEST'
 export const UNFOLLOW_SUCCESS = 'UNFOLLOW_SUCCESS'
 export const UNFOLLOW_FAILURE = 'UNFOLLOW_FAILURE'
 
-
+const dummyUser = (data) =>({
+    ...data,
+    nickname : '코줍',
+    id : 1,
+    Posts : [],
+    Followings : [],
+    Follwers : [],
+});
 
 // thunk를 쓰면, 로그인에 전반적인 비동기 액션크리에터를 하나 더 추가해줘야 한다.
 // 코드가 간단하지만, thunk를 안쓰는 이유는 한 번에 여러 개의 action을 dispatch를 하는 거 이외에 기능이 없음.
@@ -80,7 +87,7 @@ const reducer = (state = initialState, action)=>{
             ...state,
             logInLoading : false,
             logInError : true, 
-            me : {...action.data, nickname : 'kozub'},
+            me : dummyUser(action.data),
         };
         case LOG_IN_FAILURE : 
         return {
@@ -91,20 +98,44 @@ const reducer = (state = initialState, action)=>{
         case LOG_OUT_REQUEST : 
         return {
             ...state,
-            isLoggingOut : true,
+            logOutLoading : true,
+            logOutDone : false,
+            logOutError : null,
+
         }
         case LOG_OUT_SUCCESS : 
         return {
             ...state,
-            isLoggingOut : false,
-            isLoggedIn : false, 
+            logOutLoading : false,
+            logOutDone : true, 
             me : null
         };
         case LOG_OUT_FAILURE : 
         return {
             ...state,
-            isLoggingOut : false,
-    
+            logOutLoading : false,
+            logOutError : action.error,
+        };
+        case SIGN_UP_REQUEST : 
+        return {
+            ...state,
+            logOutLoading : true,
+            logOutDone : false,
+            logOutError : null,
+
+        }
+        case SIGN_UP_SUCCESS : 
+        return {
+            ...state,
+            logOutLoading : false,
+            logOutDone : true, 
+            me : null
+        };
+        case SIGN_UP_FAILURE : 
+        return {
+            ...state,
+            logOutLoading : false,
+            logOutError : action.error,
         };
         default:
             return state;
