@@ -37,9 +37,9 @@ const dummyUser = (data) =>({
     ...data,
     nickname : '코줍',
     id : 1,
-    Posts : [],
-    Followings : [],
-    Follwers : [],
+    Posts : [{id : 1}],
+    Followings : [{nickname : '코줍'}, {nickname : '코줍쟈니'}, {nickname : '지하늬'}],
+    Follwers : [{nickname : '코줍'}, {nickname : '코줍쟈니'}, {nickname : '지하늬'}],
 });
 
 // thunk를 쓰면, 로그인에 전반적인 비동기 액션크리에터를 하나 더 추가해줘야 한다.
@@ -87,7 +87,7 @@ const reducer = (state = initialState, action)=>{
             ...state,
             logInLoading : false,
             logInError : true, 
-            me : dummyUser(action.data),
+        me : dummyUser(action.data),
         };
         case LOG_IN_FAILURE : 
         return {

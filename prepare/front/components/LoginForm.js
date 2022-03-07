@@ -18,22 +18,22 @@ const FormWrapper = styled(Form)`
 
 const LoginForm = () =>{
     const dispatch = useDispatch();
-    const {isLoggingIn} = useSelector((state)=> state.user)
-    const [id, onChangeId] = useInput('')
+    const {logInLoading} = useSelector((state)=> state.user)
+    const [email, onChangeEmail] = useInput('')
     const [password, onChangePassword] = useInput('')
 
     const style = useMemo(()=>({marginTop : 10}),[])
 
     const onSubmitForm = useCallback(() =>{
         dispatch(loginRequestAction())
-    },[id, password])
+    },[email, password])
 
     return(
         <FormWrapper onFinish={onSubmitForm}>
             <div>
-                <label htmlFor='user-id'>아이디</label>
+                <label htmlFor='user-id'>이메일</label>
                 <br/>
-                <Input name='user-id' value={id} onChange={onChangeId} required/>
+                <Input name='user-id' value={email} onChange={onChangeEmail} required/>
             </div>
             <div>
                 <label htmlFor='user-password'>비밀번호</label>
@@ -44,7 +44,7 @@ const LoginForm = () =>{
                     onChange={onChangePassword} required/>
             </div>
             <ButtonWrapper style={style}>
-                <Button type='primary' htmlType='submit' loading={isLoggingIn}>로그인</Button>
+                <Button type='primary' htmlType='submit' loading={logInLoading}>로그인</Button>
                 <Link href='/signup'><a><Button>회원가입</Button></a></Link>
             </ButtonWrapper>
         </FormWrapper>   
