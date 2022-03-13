@@ -1,41 +1,65 @@
 export const initialState = {
-    isLoggedIn : false, 
-    me : null, 
-    signUpData : {},
-    loginData : {},
-}
+  loginLoading: false,
+  isLoggedIn: false,
+  logoutLoading: false,
+  me: null,
+  signUpData: {},
+  loginData: {},
+};
 
-export const loginAction = (data) =>{
-    return {
-        type : 'LOG_IN',
-        data
-    }
-}
+export const logInRequestAction = (data) => ({
+  type: 'LOG_IN_REQUEST',
+  data,
+});
 
-export const logoutAction = () =>{
-    return {
-        type : 'LOG_OUT',
-    }
-}
+export const logOutRequestAction = () => ({
+  type: 'LOG_OUT_REQUEST',
+});
 
-// 이전 state와 action을 받아서 다음 state를 반환해주는 함수 : reducer
-const reducer = (state = initialState, action)=>{
-    switch(action.type){
-        case 'LOG_IN' : 
-        return {
-            ...state,
-            isLoggedIn : true, 
-            me : action.data,
-        };
-        case 'LOG_OUT' : 
-        return {
-            ...state,
-            isLoggedIn : false, 
-            me : null
-        }
-        default:
-            return state;
-    }
-}
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case 'LOG_IN_REQUEST':
+      return {
+        ...state,
+        loginLoading: true,
+        isLoggedIn: true,
+        me: { ...action.data, nickname: 'kozub' },
+      };
+    case 'LOG_IN_SUCCESS':
+      return {
+        ...state,
+        loginLoading: false,
+        isLoggedIn: true,
+        me: { ...action.data, nickname: 'kozub' },
+      };
+    case 'LOG_IN_FAILURE':
+      return {
+        ...state,
+        loginLoading: false,
+        isLoggedIn: true,
+      };
+    case 'LOG_OUT_REQUEST':
+      return {
+        ...state,
+        logoutLoading: true,
+        isLoggedIn: false,
+        me: null,
+      };
+    case 'LOG_OUT_SUCCESS':
+      return {
+        ...state,
+        logoutLoading: false,
+        isLoggedIn: true,
+      };
+    case 'LOG_OUT_FAILURE':
+      return {
+        ...state,
+        logoutLoading: false,
+        isLoggedIn: true,
+      };
+    default:
+      return state;
+  }
+};
 
-export default reducer
+export default reducer;

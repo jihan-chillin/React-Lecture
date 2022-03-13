@@ -1,6 +1,5 @@
-
-import {CloseOutlined} from '@ant-design/icons'
-import styled, { createGlobalStyle } from 'styled-components'
+import { CloseOutlined } from '@ant-design/icons';
+import styled, { createGlobalStyle } from 'styled-components';
 
 export const Overlay = styled.div`
     position : fixed;
@@ -9,7 +8,7 @@ export const Overlay = styled.div`
     left : 0;
     right : 0;
     bottom : 0;
-`
+`;
 export const Header = styled.header`
     header : 44px;
     background : white;
@@ -32,12 +31,12 @@ export const Header = styled.header`
         line-height : 14px;
         cursor : pointer;
     }
-`   
+`;
 
 export const SlickWrapper = styled.div`
     height : calc(100%-44px);
     background : #090909;
-`
+`;
 
 export const ImgWrapper = styled.div`
     padding : 32px;
@@ -47,7 +46,7 @@ export const ImgWrapper = styled.div`
         margin : 0 auto;
         max-height : 500px;
     }
-`
+`;
 export const Indicator = styled.div`
     text-align : center;
 
@@ -63,7 +62,7 @@ export const Indicator = styled.div`
         font-size : 15px;
         margin-bottom: 20px;
     }
-`
+`;
 
 export const CloseBtn = styled(CloseOutlined)`
     position : absolute ;
@@ -72,7 +71,7 @@ export const CloseBtn = styled(CloseOutlined)`
     padding : 15px;
     line-height: 14px;
     cursor : pointer;
-`
+`;
 
 // react-slick처럼 라이브러리로 자동 스타일링이 되는 것들은 createStyle을 이용해 변경해줄 수 있음
 export const Gloabal = createGlobalStyle`
@@ -83,4 +82,4 @@ export const Gloabal = createGlobalStyle`
     .ant-card-cover{
         transform: none !important;
     }
-`
+`;
