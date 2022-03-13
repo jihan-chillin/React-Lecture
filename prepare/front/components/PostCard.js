@@ -11,22 +11,26 @@ import PostCardContent from './PostCardContent';
 
 // 부모컴포넌트인 index.js에서 post 받아옴.
 function PostCard({ post }) {
+//   const dispatch = useDispatch();
+  const [commentOpened, setCommentOpened] = useState(false);
   const [liked, setLiked] = useState(false);
+
+  const { me } = useSelector((state) => state.user);
+  const id = me && me.id;
+
   // 토글인 state관리 setLiked((prev) => !prev);
   const onToggleLike = useCallback(() => {
     setLiked((prev) => !prev);
   }, []);
-  const [commentOpened, setCommentOpened] = useState(false);
+
   const onToggleComment = useCallback(() => {
     setCommentOpened((prev) => !prev);
   }, []);
-  const { me } = useSelector((state) => state.user);
-  const id = me?.id;
 
   return (
-    <div style={{ marginBottom: 20 }}>
+    <div style={{ marginBottom: 20 }} key={post.id}>
       <Card
-        cover={post.Images && <PostImages images={post.Images} />}
+        cover={post.Images[0] && <PostImages images={post.Images} />}
         actions={[
           <RetweetOutlined key="retweet" />,
           liked
@@ -37,15 +41,14 @@ function PostCard({ post }) {
             key="more"
             content={(
               <Button.Group>
-                {id && post.User.id === id
-                  ? (
-                    <>
-                      <Button>수정</Button>
-                      <Button type="danger">삭제</Button>
-                    </>
-                  ) : (
-                    <Button>신고</Button>
-                  )}
+                {id && post.User.id === id ? (
+                  <>
+                    <Button>수정</Button>
+                    <Button type="danger">삭제</Button>
+                  </>
+                ) : (
+                  <Button>신고</Button>
+                )}
 
               </Button.Group>
                     )}

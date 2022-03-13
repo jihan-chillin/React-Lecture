@@ -1,28 +1,33 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import { Form, Input, Button } from 'antd';
-
 import { useDispatch, useSelector } from 'react-redux';
-import { addPost } from '../reducers/post';
+
+import { addPost, ADD_POST_REQUEST } from '../reducers/post';
+import useInput from '../hooks/useInput';
 
 function PostForm() {
   const dispatch = useDispatch();
-  const { imagePaths } = useSelector((state) => state.post);
+  const { imagePaths, addPostDone } = useSelector((state) => state.post);
   const imageInput = useRef();
   const ImageUpload = useCallback(() => {
     imageInput.current.click();
     // imageInput.current를 통해서 접근할 수 있음.
   }, [imageInput.current]);
 
-  const [text, setText] = useState('');
+  const [text, onChangeText, setText] = useInput('');
 
-  const onChangeText = (e) => {
-    setText(e.target.value);
-  };
+  useEffect(() => {
+    if (addPostDone) {
+      setText('');
+    }
+  }, [addPost]);
 
   const onSubmit = useCallback(() => {
-    dispatch(addPost);
-    setText('');
-  }, []);
+    dispatch({
+      type: ADD_POST_REQUEST,
+      data: text,
+    });
+  }, [text]);
 
   return (
     <Form style={{ margin: '10px 0 20px' }} encType="multipart/form-data" onFinish={onSubmit}>
@@ -30,7 +35,7 @@ function PostForm() {
         value={text}
         onChange={onChangeText}
         maxLength={140}
-        placeholder="퇴사하고 싶으신가요?"
+        placeholder="오늘 저녁 메뉴는?"
       />
       <div>
         <input type="file" multiple hidden ref={imageInput} />

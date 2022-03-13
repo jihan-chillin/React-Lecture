@@ -1,9 +1,8 @@
 import React from 'react';
-import Head from 'next/head';
 import PropTypes from 'prop-types';
-import 'antd/dist/antd.css';
-
+import Head from 'next/head';
 import wrapper from '../store/configureStore';
+import 'antd/dist/antd.css';
 
 function Nodebird({ Component }) {
   return (

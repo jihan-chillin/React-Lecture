@@ -9,7 +9,7 @@ import LoginForm from './LoginForm';
 import UserProfile from './UserProfile';
 
 const searchInput = styled(Input.Search)`
-  vertical-align : middle;
+  vertical-align:middle ;
 `;
 
 /* gutter로 인해 불필요한 스크롤이 생기는 걸 방지해주는 global styling */
@@ -29,7 +29,7 @@ const Gloabal = createGlobalStyle`
 `;
 
 function AppLayout({ children }) {
-  const isLoggedIn = useSelector((state) => state?.user.isLoggedIn);
+  const { me } = useSelector((state) => state.user);
 
   return (
     <div>
@@ -42,7 +42,7 @@ function AppLayout({ children }) {
           <Link href="/profile"><a>프로필</a></Link>
         </Menu.Item>
         <Menu.Item>
-          <searchInput enterButton />
+          <searchInput />
         </Menu.Item>
         <Menu.Item>
           <Link href="/signup"><a>회원가입</a></Link>
@@ -51,7 +51,7 @@ function AppLayout({ children }) {
 
       <Row gutter={8}>
         <Col xs={24} md={6}>
-          {isLoggedIn ? <UserProfile /> : <LoginForm />}
+          {me ? <UserProfile /> : <LoginForm /> }
         </Col>
         <Col xs={24} md={12}>
           {children}
