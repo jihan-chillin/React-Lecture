@@ -1,3 +1,5 @@
+import shortId from 'shortid';
+
 export const initialState = {
   // 더미데이터 쓸 때, 다른 데이터와 합쳐져서 오는 애들은 '대문자'
   // 그냥 단일로 송수신 되는 데이터는 '소문자'로 작성됨.
@@ -35,6 +37,9 @@ export const initialState = {
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
+  addCommentLoading: false,
+  addCommentDone: false,
+  addCommentError: null,
 };
 
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
@@ -56,7 +61,7 @@ export const addComment = (data) => ({
 });
 
 const dummyPost = (data) => ({
-  id: 1,
+  id: shortId.generate(),
   content: data,
   User: {
     id: 1,
@@ -64,7 +69,15 @@ const dummyPost = (data) => ({
   },
   imagePaths: [],
   Comments: [],
-  // postAdded : false,
+});
+
+const dummyComment = (data) => ({
+  id: shortId.generate(),
+  content: data,
+  User: {
+    id: 1,
+    nickname: 'kozub',
+  },
 });
 
 // 이전 state와 action을 받아서 다음 state를 반환해주는 함수 : reducer
@@ -97,12 +110,19 @@ const reducer = (state = initialState, action) => {
         addCommentDone: false,
         addCommentError: null,
       };
-    case ADD_COMMENT_SUCCESS:
+    case ADD_COMMENT_SUCCESS: {
+      const postIndex = state.mainPosts.findIndex((v) => v.id === action.data.postId);
+      const post = state.mainPosts[postIndex];
+      const Comments = [dummyComment(action.data.content), ...post.Comments];
+      const mainPosts = [...state.mainPosts];
+      mainPosts[postIndex] = { ...post, Comments };
       return {
         ...state,
+        mainPosts,
         addCommentLoading: false,
         addCommentDone: true,
       };
+    }
     case ADD_COMMENT_FAILURE:
       return {
         ...state,

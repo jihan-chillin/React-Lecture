@@ -30,7 +30,7 @@ function PostCard({ post }) {
   return (
     <div style={{ marginBottom: 20 }} key={post.id}>
       <Card
-        cover={post.Images[0] && <PostImages images={post.Images} />}
+        cover={post.Images && <PostImages images={post.Images} />}
         actions={[
           <RetweetOutlined key="retweet" />,
           liked
@@ -58,7 +58,7 @@ function PostCard({ post }) {
         ]}
       >
         <Card.Meta
-          avatar={<Avatar>{post.User.nickname}</Avatar>}
+          avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
           title={post.User.nickname}
           description={<PostCardContent postData={post.content} />}
         />

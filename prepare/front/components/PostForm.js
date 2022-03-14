@@ -8,19 +8,19 @@ import useInput from '../hooks/useInput';
 function PostForm() {
   const dispatch = useDispatch();
   const { imagePaths, addPostDone } = useSelector((state) => state.post);
+  const [text, onChangeText, setText] = useInput('');
+
   const imageInput = useRef();
   const ImageUpload = useCallback(() => {
     imageInput.current.click();
     // imageInput.current를 통해서 접근할 수 있음.
   }, [imageInput.current]);
 
-  const [text, onChangeText, setText] = useInput('');
-
   useEffect(() => {
     if (addPostDone) {
       setText('');
     }
-  }, [addPost]);
+  }, [addPostDone]);
 
   const onSubmit = useCallback(() => {
     dispatch({
