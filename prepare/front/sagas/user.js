@@ -94,13 +94,14 @@ function followAPI() {
   return axios.post('/api/signup');
 }
 
-function* follow() {
+function* follow(action) {
   try {
     // API 처리 결과를 result안에 받음
     // const result = yield call(logOutAPI)
     yield delay(1000);
     yield put({
       type: FOLLOW_SUCCESS,
+      data: action.data,
     });
   } catch (e) {
     yield put({
