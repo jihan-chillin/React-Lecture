@@ -23,6 +23,7 @@ function PostForm() {
   }, [addPostDone]);
 
   const onSubmit = useCallback(() => {
+    console.log('data 들어가는 방법 : ', text);
     dispatch({
       type: ADD_POST_REQUEST,
       data: text,

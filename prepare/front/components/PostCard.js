@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Card, Popover, Button, List, Comment } from 'antd';
 import { EllipsisOutlined, HeartOutlined, HeartTwoTone, MessageOutlined, RetweetOutlined } from '@ant-design/icons';
@@ -8,10 +8,12 @@ import Avatar from 'antd/lib/avatar/avatar';
 import PostImages from './PostImages';
 import CommentForm from './CommentForm';
 import PostCardContent from './PostCardContent';
+import { REMOVE_POST_REQUEST } from '../reducers/post';
 
 // 부모컴포넌트인 index.js에서 post 받아옴.
 function PostCard({ post }) {
-//   const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const { removePostLoading } = useSelector((state) => state.post);
   const [commentOpened, setCommentOpened] = useState(false);
   const [liked, setLiked] = useState(false);
 
@@ -25,6 +27,13 @@ function PostCard({ post }) {
 
   const onToggleComment = useCallback(() => {
     setCommentOpened((prev) => !prev);
+  }, []);
+
+  const onRemovePost = useCallback(() => {
+    dispatch({
+      type: REMOVE_POST_REQUEST,
+      data: post.id,
+    });
   }, []);
 
   return (
@@ -44,7 +53,7 @@ function PostCard({ post }) {
                 {id && post.User.id === id ? (
                   <>
                     <Button>수정</Button>
-                    <Button type="danger">삭제</Button>
+                    <Button type="danger" loading={removePostLoading} onClick={onRemovePost}>삭제</Button>
                   </>
                 ) : (
                   <Button>신고</Button>
