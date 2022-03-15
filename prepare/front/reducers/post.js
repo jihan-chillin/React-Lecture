@@ -1,47 +1,14 @@
 import shortId from 'shortid';
 import produce from 'immer';
+import faker from 'faker';
 
 export const initialState = {
-  // 더미데이터 쓸 때, 다른 데이터와 합쳐져서 오는 애들은 '대문자'
-  // 그냥 단일로 송수신 되는 데이터는 '소문자'로 작성됨.
-  // 그래서 서버개발자에게 어떻게 데이터를 보낼건지 먼저 물어보고 하는 게 중요
-  mainPosts: [{
-    id: 1,
-    User: {
-      id: 1,
-      nickname: 'kozub',
-    },
-    content: '첫 번째 더미데이터 #리덕스 #본격적으로시작전 #프로퇴사러',
-    Images: [{
-      id: shortId.generate(),
-      src: 'https://pbs.twimg.com/profile_images/1072730974343979008/ebGYbR-L.jpg',
-    },
-    {
-      id: shortId.generate(),
-      src: 'https://pbs.twimg.com/media/ERcRb9eU0AAmv56.jpg',
-    },
-    {
-      id: shortId.generate(),
-      src: 'https://pbs.twimg.com/media/FEuPI5uacAECirJ?format=jpg&name=large',
-    },
-    ],
-    Comments: [{
-      id: shortId.generate(),
-      User: {
-        id: shortId.generate(),
-        nickname: 'kozubi',
-      },
-      content: '우왕 너무 귀여워요 >ㅠ<',
-    }, {
-      id: shortId.generate(),
-      User: {
-        id: shortId.generate(),
-        nickname: '쟈니쟈니',
-      },
-      content: '째보가 나라를 구한다.',
-    }],
-  }],
+  mainPosts: [],
   imagePaths: [],
+  hasMorePost: true,
+  loadPostsLoading: false,
+  loadPostsDone: false,
+  loadPostsError: null,
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
@@ -52,6 +19,29 @@ export const initialState = {
   addCommentDone: false,
   addCommentError: null,
 };
+
+export const generateDummyPost = (number) => Array(number).fill().map(() => ({
+  id: shortId.generate(),
+  User: {
+    id: shortId.generate(),
+    nickname: faker.name.findName(),
+  },
+  content: faker.lorem.paragraph(),
+  Images: [{
+    src: faker.image.image(),
+  }],
+  Comments: [{
+    User: {
+      id: shortId.generate(),
+      nickname: faker.name.findName(),
+    },
+    content: faker.lorem.sentence(),
+  }],
+}));
+
+export const LOAD_POST_REQUEST = 'LOAD_POST_REQUEST';
+export const LOAD_POST_SUCCESS = 'LOAD_POST_SUCCESS';
+export const LOAD_POST_FAILURE = 'LOAD_POST_FAILURE';
 
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
@@ -98,6 +88,23 @@ const dummyComment = (data) => ({
 // 이전 state와 action을 받아서 다음 state를 반환해주는 함수 : reducer
 const reducer = (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
+    case LOAD_POST_REQUEST:
+      draft.loadPostLoading = true;
+      draft.loadPostDone = false;
+      draft.loadPostError = null;
+      break;
+    case LOAD_POST_SUCCESS:
+      draft.loadPostLoading = false;
+      draft.loadPostDone = true;
+      // 기존데이터에 action.data 안에 들어있는 랜덤데이터 넣어주기
+      draft.mainPosts = action.data.concat(draft.mainPosts);
+      // 게시글 50개로 제한
+      draft.hasMorePost = draft.mainPosts.length < 50;
+      break;
+    case LOAD_POST_FAILURE:
+      draft.loadPostLoading = false;
+      draft.loadPostError = action.error;
+      break;
     case ADD_POST_REQUEST:
       draft.addPostLoading = true;
       draft.addPostDone = false;
