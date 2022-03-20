@@ -1,4 +1,4 @@
-import { all, fork, delay, takeLatest, put } from 'redux-saga/effects';
+import { all, fork, delay, takeLatest, put, call } from 'redux-saga/effects';
 import axios from 'axios';
 import {
   LOG_IN_REQUEST,
@@ -70,15 +70,16 @@ function* logOut() {
   }
 }
 
-function signUpAPI() {
-  return axios.post('/api/signup');
+function signUpAPI(data) {
+  // 백엔드 포트번호가 3065이기 때문에 localhost:3065
+  return axios.post('http://localhost:3065/user', data);
 }
 
-function* signUp() {
+function* signUp(action) {
   try {
     // API 처리 결과를 result안에 받음
-    // const result = yield call(logOutAPI)
-    yield delay(1000);
+    const result = yield call(signUpAPI, action.data);
+    console.log('회원가입 정보 : ', result);
     yield put({
       type: SIGN_UP_SUCCESS,
     });
