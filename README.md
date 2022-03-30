@@ -20,5 +20,21 @@
 - MySQL
 - node(Express)
 
+-------
+
+### 기본세팅
+./front, ./back 각각
+  yarn 
+
+### 실행방법
+./front
+  yarn dev
+./back
+  yarn dev
+------
+### 진행상황
+###### redux로 관리하던 더미데이터 DB로 연결해서 옮기는 중...
+###### 프론트서버랑 백서버 아직 나눠져 있음
+
 
 
