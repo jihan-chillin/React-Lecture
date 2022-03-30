@@ -2,9 +2,10 @@
 
 ### 프로젝트 설명
 ##### 제로초 "React로 NodeBird SNS 만들기" 클론코딩
+-------
 
 ### 기술스택
-#### Front
+### Front
 ###### Framework & Language
 - React(Next.js)
 - javascript
@@ -14,7 +15,7 @@
 - antd (UI Library)
 - styled-components
 - react-slick
-#### Back
+### Back
 - sequelize
 - MySQL
 - node(Express)
