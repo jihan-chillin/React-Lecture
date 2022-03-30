@@ -24,7 +24,7 @@
 
 ### 기본세팅
 ./front, ./back 각각
-  yarn 
+    yarn 
 
 ### 실행방법
 ./front
