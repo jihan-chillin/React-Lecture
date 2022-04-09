@@ -4,6 +4,7 @@ const cors = require('cors')
 const userRouter = require('./routes/user')
 const postRouter = require('./routes/post')
 const db = require('./models');
+const passportConfig = require('./passport');
 
 const app = express();
 db.sequelize.sync()
@@ -11,6 +12,8 @@ db.sequelize.sync()
         console.log("db연결 성공");
     })
     .catch(console.error);
+
+passportConfig();
 
 app.use(cors({
     // 요청을 받되 nodebird 홈페이지에서 온 요청만 받겠다는 뜻
