@@ -2,7 +2,8 @@ const express = require('express')
 const bcrypt = require('bcrypt')
 const passport = require('passport')
 
-const {User} = require('../models')
+const { User, Post } = require('../models');
+const db = require('../models');
 
 const router = express.Router();
 
@@ -22,11 +23,26 @@ router.post('/login', (req, res, next)=>{
             console.error(loginErr)
             return next(loginErr);
         }
-        // 여기까지가 로그인 완료이고
-        // 완료된 결과를 프론트로 넘겨준다.
-        return res.json(user);
+        // 모든 정보가 다 있는 user를 fullUser라고 하겠음.
+        const fullUserWithoutPassword = await User.findOne({
+            where : {id : user.id},
+            // attributes : ['id','nickname', 'email'], // 원하는 정보만 가져오고 싶을 때,
+            attributes : {
+                exclude: ['password']
+            },
+            include : [{
+                model : Post,
+            }, {
+                model : User,
+                as : 'Followings',
+            },{
+                model : User,
+                as : 'Followers',
+            }]
+        })
+        return res.status(200).json(fullUserWithoutPassword);
     });
-    // 
+   // res.setHeader('Cookie','cslhy') 
     })(req, res, next)
 });
 
@@ -57,5 +73,12 @@ router.post('/', async (req, res, next)=>{//Post/user
         next(error);
     }
 })
+
+router.post('/logout', (req, res) => {
+    console.log(req, res, "이거 백에서 받아오는 뤠쿠ㅠ")
+    req.logout();
+    req.session.destroy();
+    res.send('ok');
+  });
 
 module.exports = router;
