@@ -3,11 +3,12 @@ const bcrypt = require('bcrypt')
 const passport = require('passport')
 
 const { User, Post } = require('../models');
+const {isLoggedIn, isNotLoggedIn} = require('./middlewares');
 const db = require('../models');
 
 const router = express.Router();
 
-router.post('/login', (req, res, next)=>{
+router.post('/login',isNotLoggedIn, (req, res, next)=>{
     passport.authenticate('local', (err, user, info)=>{
     // 서버쪽 에러가 있을 때,
     if(err){
@@ -46,7 +47,7 @@ router.post('/login', (req, res, next)=>{
     })(req, res, next)
 });
 
-router.post('/', async (req, res, next)=>{//Post/user
+router.post('/',isNotLoggedIn, async (req, res, next)=>{ //Post/user
     try{
         // 이메일 중복체크
         const exUser = await User.findOne({    
@@ -74,8 +75,7 @@ router.post('/', async (req, res, next)=>{//Post/user
     }
 })
 
-router.post('/logout', (req, res) => {
-    console.log(req, res, "이거 백에서 받아오는 뤠쿠ㅠ")
+router.post('/logout',isLoggedIn, (req, res) => {
     req.logout();
     req.session.destroy();
     res.send('ok');
